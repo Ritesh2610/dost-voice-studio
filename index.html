@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free Hindi and English text to voice that runs in your browser. Type a line, listen, and download the audio.">
+  <title>Dost Voice Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="top">
+    <h1 class="brand">Dost Voice Studio</h1>
+    <p class="usage">Free, with no account. Your text stays on your device.</p>
+  </header>
+
+  <div class="notice" id="notice" role="alert" hidden>
+    <div class="notice-body">
+      <strong id="notice-title"></strong>
+      <p id="notice-hint"></p>
+    </div>
+    <button type="button" class="link-btn" id="notice-close">Dismiss</button>
+  </div>
+
+  <main class="stage">
+    <section class="say" aria-label="Script and playback">
+      <form id="form" novalidate>
+        <div class="bubble">
+          <label class="bubble-label" for="text" id="text-label">What should your dost say?</label>
+          <textarea id="text" name="text" rows="7" spellcheck="false"
+            placeholder="हिंदी या English में कुछ लिखिए…"></textarea>
+          <p class="script-hint" id="script-hint" hidden>Hindi voices read Devanagari best. Roman-script Hinglish can sound off, so try writing it as हिंदी.</p>
+          <div class="bubble-foot">
+            <span class="count" id="count" aria-live="polite">0 / 1,500</span>
+            <button type="submit" class="go" id="go">Generate voice</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="speaker" id="speaker" data-state="idle">
+        <div class="avatar" aria-hidden="true"><span id="avatar-letter">D</span></div>
+        <div class="speaker-main">
+          <p class="speaker-name">
+            <span id="speaker-name">Your dost</span>
+            <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          </p>
+          <p class="speaker-status" id="speaker-status">Type a line, choose a speaker, then press Generate voice.</p>
+          <div class="player" id="player" data-kind="file" hidden>
+            <button type="button" class="play" id="play" aria-label="Play">
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path id="play-icon" d="M7 4.5v15l13-7.5z"/></svg>
+            </button>
+            <input type="range" id="seek" min="0" max="1000" value="0" step="1" aria-label="Playback position">
+            <span class="time" id="time">0:00 / 0:00</span>
+            <a class="download" id="download" download>Download WAV</a>
+            <button type="button" class="btn redo" id="redo-studio" hidden></button>
+            <span class="player-note" id="player-note">Browser voice, play only</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="starters">
+        <p class="starters-title" id="starters-title">Or start from a line</p>
+        <ul class="chips" id="starters" aria-labelledby="starters-title"></ul>
+      </div>
+    </section>
+
+    <aside class="rail" aria-label="Voice settings and takes">
+      <section class="panel">
+        <h2>Voice</h2>
+        <div class="field">
+          <label for="voice">Speaker</label>
+          <select id="voice"></select>
+          <p class="help" id="voice-help" hidden></p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Delivery</h2>
+          <button type="button" class="link-btn" id="reset">Reset</button>
+        </div>
+        <div class="slider">
+          <label for="speed">Speed <output id="speed-out" for="speed"></output></label>
+          <input type="range" id="speed" min="0.6" max="1.6" step="0.01">
+          <p class="ends"><span>Slower</span><span>Faster</span></p>
+        </div>
+        <div class="slider" id="expressiveness-row">
+          <label for="expressiveness">Expressiveness <output id="expressiveness-out" for="expressiveness"></output></label>
+          <input type="range" id="expressiveness" min="0" max="1" step="0.01">
+          <p class="ends"><span>Flat and steady</span><span>Lively</span></p>
+        </div>
+        <div class="slider" id="rhythm-row">
+          <label for="rhythm">Rhythm <output id="rhythm-out" for="rhythm"></output></label>
+          <input type="range" id="rhythm" min="0" max="1.2" step="0.01">
+          <p class="ends"><span>Even</span><span>Varied</span></p>
+        </div>
+        <div class="slider" id="pitch-row" hidden>
+          <label for="pitch">Pitch <output id="pitch-out" for="pitch"></output></label>
+          <input type="range" id="pitch" min="0.5" max="1.5" step="0.01">
+          <p class="ends"><span>Lower</span><span>Higher</span></p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Takes</h2>
+          <button type="button" class="link-btn" id="clear-takes" hidden>Delete all</button>
+        </div>
+        <p class="empty" id="takes-empty">Each voice you generate is saved here, in this browser. Generate one to start.</p>
+        <ul class="takes" id="takes"></ul>
+      </section>
+    </aside>
+  </main>
+
+  <audio id="audio" preload="auto"></audio>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
